@@ -11,7 +11,6 @@
 <div class="container">
     <h2>INPUT PENDAFTARAN</h2>
     
-    <!-- JUMLAH INPUT DATA (otomatis dari tabel) -->
     <div class="info-jumlah">
         <strong>JUMLAH INPUT DATA: <span id="jumlahInput">0</span></strong>
     </div>
@@ -29,8 +28,11 @@
             <tr>
                 <td><label>JENIS KELAMIN</label></td>
                 <td>
-                    <label><input type="radio" name="jk" value="Laki-laki" required> LAKI-LAKI</label>
-                    <label><input type="radio" name="jk" value="Perempuan"> PEREMPUAN</label>
+                    <input type="radio" name="jk" id="jkLaki" value="Laki-laki" required>
+                    <label for="jkLaki">LAKI-LAKI</label>
+                    &nbsp;&nbsp;
+                    <input type="radio" name="jk" id="jkPerempuan" value="Perempuan">
+                    <label for="jkPerempuan">PEREMPUAN</label>
                 </td>
             </tr>
             <tr>
@@ -83,14 +85,13 @@
         </table>
         
         <div class="tombol-form">
-            <button type="submit" class="btn-simpan">SIMPAN</button>
-            <button type="reset" class="btn-reset">RESET</button>
+            <button type="button" class="btn-simpan" onclick="simpanData()">SIMPAN</button>
+            <button type="button" class="btn-reset" onclick="resetForm()">RESET</button>
         </div>
     </form>
 
     <hr>
 
-    <!-- TABEL DATA -->
     <h2>TABEL DATA</h2>
     <div class="table-wrapper">
         <table id="tabelData">
@@ -110,12 +111,10 @@
                 </tr>
             </thead>
             <tbody id="bodyTabel">
-                <!-- Data akan muncul di sini -->
             </tbody>
         </table>
     </div>
 
-    <!-- RINGKASAN -->
     <div class="ringkasan">
         <div class="ringkasan-item">
             <strong>JUMLAH PENDAFTAR: <span id="jumlahPendaftar">0</span></strong>
