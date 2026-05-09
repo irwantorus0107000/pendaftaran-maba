@@ -4,7 +4,194 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Input Pendaftaran Mahasiswa Baru</title>
-    <link rel="stylesheet" href="style.css">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Arial, sans-serif;
+            background-color: #e8ecf1;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            background: white;
+            padding: 25px 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            background-color: #d4e6f1;
+            padding: 8px 15px;
+            margin-bottom: 20px;
+            font-size: 18px;
+            border-radius: 4px;
+            color: #1a3a5c;
+        }
+
+        .info-jumlah {
+            margin-bottom: 15px;
+            font-size: 16px;
+            color: #1a3a5c;
+            background: #eaf2f8;
+            padding: 8px 15px;
+            border-radius: 4px;
+        }
+
+        .form-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .form-table td {
+            padding: 8px 10px;
+            vertical-align: middle;
+        }
+
+        .form-table label {
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .form-table input[type="text"],
+        .form-table input[type="number"],
+        .form-table input[type="date"],
+        .form-table select {
+            padding: 8px 12px;
+            border: 1px solid #aaa;
+            border-radius: 4px;
+            font-size: 14px;
+            width: 100%;
+            max-width: 300px;
+        }
+
+        .form-table input[readonly] {
+            background-color: #f5f5f5;
+            color: #333;
+            font-weight: bold;
+            border: 1px solid #888;
+        }
+
+        .tombol-form {
+            margin-top: 15px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-simpan {
+            background-color: #27ae60;
+            color: white;
+            border: none;
+            padding: 10px 30px;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        .btn-simpan:hover {
+            background-color: #219a52;
+        }
+
+        .btn-reset {
+            background-color: #e67e22;
+            color: white;
+            border: none;
+            padding: 10px 30px;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        .btn-reset:hover {
+            background-color: #d35400;
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+            margin-top: 15px;
+        }
+
+        #tabelData {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+            min-width: 1200px;
+        }
+
+        #tabelData thead th {
+            background-color: #d4e6f1;
+            border: 1px solid #999;
+            padding: 8px 6px;
+            text-align: center;
+            font-size: 12px;
+            white-space: nowrap;
+        }
+
+        #tabelData tbody td {
+            border: 1px solid #ccc;
+            padding: 6px;
+            text-align: center;
+        }
+
+        #tabelData tbody tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        #tabelData tbody tr:hover {
+            background-color: #eef5ff;
+        }
+
+        .ringkasan {
+            display: flex;
+            gap: 20px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .ringkasan-item {
+            background-color: #eaf2f8;
+            padding: 10px 20px;
+            border-radius: 4px;
+            font-size: 15px;
+            border: 1px solid #b0c4de;
+        }
+
+        .ringkasan-item span {
+            font-weight: bold;
+            color: #1a3a5c;
+        }
+
+        hr {
+            margin: 25px 0;
+            border: none;
+            border-top: 2px solid #ddd;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            .form-table input[type="text"],
+            .form-table input[type="number"],
+            .form-table input[type="date"],
+            .form-table select {
+                max-width: 100%;
+            }
+            .ringkasan {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+    </style>
 </head>
 <body>
 
@@ -15,7 +202,7 @@
         <strong>JUMLAH INPUT DATA: <span id="jumlahInput">0</span></strong>
     </div>
 
-    <form id="formDaftar">
+    <form id="formDaftar" onsubmit="return false;">
         <table class="form-table">
             <tr>
                 <td><label>KODE PENDAFTARAN</label></td>
@@ -23,48 +210,48 @@
             </tr>
             <tr>
                 <td><label>NAMA PENDAFTAR</label></td>
-                <td><input type="text" id="nama" required></td>
+                <td><input type="text" id="nama" placeholder="Masukkan nama lengkap"></td>
             </tr>
             <tr>
                 <td><label>JENIS KELAMIN</label></td>
                 <td>
-                    <input type="radio" name="jk" id="jkLaki" value="Laki-laki" required>
-                    <label for="jkLaki">LAKI-LAKI</label>
+                    <input type="radio" name="jk" id="jkLaki" value="Laki-laki">
+                    <label for="jkLaki" style="cursor:pointer;">LAKI-LAKI</label>
                     &nbsp;&nbsp;
                     <input type="radio" name="jk" id="jkPerempuan" value="Perempuan">
-                    <label for="jkPerempuan">PEREMPUAN</label>
+                    <label for="jkPerempuan" style="cursor:pointer;">PEREMPUAN</label>
                 </td>
             </tr>
             <tr>
                 <td><label>TEMPAT TANGGAL LAHIR</label></td>
                 <td>
-                    <input type="text" id="tempatLahir" placeholder="Tempat" required style="width: 120px;">
-                    <input type="date" id="tanggalLahir" required style="width: 160px;">
+                    <input type="text" id="tempatLahir" placeholder="Tempat lahir" style="width: 120px;">
+                    <input type="date" id="tanggalLahir" style="width: 160px;">
                 </td>
             </tr>
             <tr>
                 <td><label>PEKERJAAN ORANG TUA</label></td>
-                <td><input type="text" id="pekerjaanOrtu" required></td>
+                <td><input type="text" id="pekerjaanOrtu" placeholder="Pekerjaan orang tua"></td>
             </tr>
             <tr>
                 <td colspan="2"><strong>NILAI TES</strong></td>
             </tr>
             <tr>
                 <td><label>MATEMATIKA</label></td>
-                <td><input type="number" id="nilaiMat" min="0" max="100" required></td>
+                <td><input type="number" id="nilaiMat" min="0" max="100" placeholder="0-100"></td>
             </tr>
             <tr>
                 <td><label>BAHASA INGGRIS</label></td>
-                <td><input type="number" id="nilaiInggris" min="0" max="100" required></td>
+                <td><input type="number" id="nilaiInggris" min="0" max="100" placeholder="0-100"></td>
             </tr>
             <tr>
                 <td><label>PENGETAHUAN UMUM</label></td>
-                <td><input type="number" id="nilaiUmum" min="0" max="100" required></td>
+                <td><input type="number" id="nilaiUmum" min="0" max="100" placeholder="0-100"></td>
             </tr>
             <tr>
                 <td><label>TEMPAT TES</label></td>
                 <td>
-                    <select id="tempatTes" required>
+                    <select id="tempatTes">
                         <option value="">-- Pilih --</option>
                         <option value="A">A - Gedung A</option>
                         <option value="B">B - Gedung B</option>
@@ -74,7 +261,7 @@
             <tr>
                 <td><label>GELOMBANG</label></td>
                 <td>
-                    <select id="gelombang" required>
+                    <select id="gelombang">
                         <option value="">-- Pilih --</option>
                         <option value="1">1</option>
                         <option value="2">2</option>
@@ -85,8 +272,8 @@
         </table>
         
         <div class="tombol-form">
-            <button type="button" class="btn-simpan" onclick="simpanData()">SIMPAN</button>
-            <button type="button" class="btn-reset" onclick="resetForm()">RESET</button>
+            <button type="button" id="btnSimpan" class="btn-simpan">SIMPAN</button>
+            <button type="button" id="btnReset" class="btn-reset">RESET</button>
         </div>
     </form>
 
@@ -111,6 +298,9 @@
                 </tr>
             </thead>
             <tbody id="bodyTabel">
+                <tr>
+                    <td colspan="11" style="text-align:center; padding: 20px; color: #999;">Belum ada data pendaftar</td>
+                </tr>
             </tbody>
         </table>
     </div>
@@ -128,6 +318,215 @@
     </div>
 </div>
 
-<script src="script.js"></script>
+<script>
+// Tunggu sampai halaman selesai dimuat
+document.addEventListener('DOMContentLoaded', function() {
+    
+    // Array untuk menyimpan semua data pendaftar
+    var dataPendaftar = [];
+    var counterUrut = 100;
+    
+    // Ambil elemen tombol
+    var btnSimpan = document.getElementById('btnSimpan');
+    var btnReset = document.getElementById('btnReset');
+    
+    // Fungsi SIMPAN
+    function simpanData() {
+        
+        // Ambil nilai dari form
+        var nama = document.getElementById('nama').value.trim();
+        var tempatLahir = document.getElementById('tempatLahir').value.trim();
+        var tanggalLahir = document.getElementById('tanggalLahir').value;
+        var pekerjaanOrtu = document.getElementById('pekerjaanOrtu').value.trim();
+        var tempatTes = document.getElementById('tempatTes').value;
+        var gelombang = document.getElementById('gelombang').value;
+        var nilaiMat = document.getElementById('nilaiMat').value;
+        var nilaiInggris = document.getElementById('nilaiInggris').value;
+        var nilaiUmum = document.getElementById('nilaiUmum').value;
+        
+        // Cek radio button
+        var jkRadio = document.querySelector('input[name="jk"]:checked');
+        
+        // VALIDASI
+        if (!nama) {
+            alert('NAMA PENDAFTAR harus diisi!');
+            return;
+        }
+        if (!jkRadio) {
+            alert('JENIS KELAMIN harus dipilih!');
+            return;
+        }
+        if (!tempatLahir) {
+            alert('TEMPAT LAHIR harus diisi!');
+            return;
+        }
+        if (!tanggalLahir) {
+            alert('TANGGAL LAHIR harus diisi!');
+            return;
+        }
+        if (!pekerjaanOrtu) {
+            alert('PEKERJAAN ORANG TUA harus diisi!');
+            return;
+        }
+        if (!tempatTes) {
+            alert('TEMPAT TES harus dipilih!');
+            return;
+        }
+        if (!gelombang) {
+            alert('GELOMBANG harus dipilih!');
+            return;
+        }
+        if (!nilaiMat || nilaiMat < 0 || nilaiMat > 100) {
+            alert('NILAI MATEMATIKA harus diisi (0-100)!');
+            return;
+        }
+        if (!nilaiInggris || nilaiInggris < 0 || nilaiInggris > 100) {
+            alert('NILAI BAHASA INGGRIS harus diisi (0-100)!');
+            return;
+        }
+        if (!nilaiUmum || nilaiUmum < 0 || nilaiUmum > 100) {
+            alert('NILAI PENGETAHUAN UMUM harus diisi (0-100)!');
+            return;
+        }
+        
+        var jenisKelamin = jkRadio.value;
+        var mat = parseInt(nilaiMat);
+        var inggris = parseInt(nilaiInggris);
+        var umum = parseInt(nilaiUmum);
+        
+        // Ambil bulan dari tanggal lahir
+        var tgl = new Date(tanggalLahir);
+        var bulan = tgl.getMonth() + 1;
+        
+        // Generate kode pendaftaran
+        var noUrut = counterUrut++;
+        var kodePendaftaran = tempatTes + gelombang + "-" + noUrut + "-" + bulan;
+        
+        // Tampilkan kode di form
+        document.getElementById('kodePendaftaran').value = kodePendaftaran;
+        
+        // Format TTL
+        var hari = tgl.getDate().toString().padStart(2, '0');
+        var bulanStr = tgl.toLocaleString('id-ID', { month: 'long' });
+        var tahun = tgl.getFullYear();
+        var ttl = tempatLahir + ", " + hari + " " + bulanStr + " " + tahun;
+        
+        // Nama gedung
+        var namaGedung = tempatTes === 'A' ? 'Gedung A' : 'Gedung B';
+        
+        // Hitung rata-rata
+        var rataRata = (mat + inggris + umum) / 3;
+        
+        // Tentukan keterangan
+        var keterangan = '';
+        if (rataRata >= 70) {
+            keterangan = 'Lulus';
+        } else if (rataRata >= 60) {
+            keterangan = 'Cadangan';
+        } else {
+            keterangan = 'Tidak Lulus';
+        }
+        
+        // Simpan ke array
+        dataPendaftar.push({
+            kode: kodePendaftaran,
+            nama: nama,
+            ttl: ttl,
+            jk: jenisKelamin,
+            pekerjaanOrtu: pekerjaanOrtu,
+            tempatTes: namaGedung,
+            mat: mat,
+            inggris: inggris,
+            umum: umum,
+            rata: rataRata,
+            ket: keterangan
+        });
+        
+        // Render tabel
+        renderTabel();
+        
+        // Reset form
+        resetFormInput();
+        
+        alert('Data berhasil disimpan!\nKode: ' + kodePendaftaran);
+    }
+    
+    // Fungsi render tabel
+    function renderTabel() {
+        var tbody = document.getElementById('bodyTabel');
+        tbody.innerHTML = '';
+        
+        var jumlahLulus = 0;
+        var jumlahTidakLulus = 0;
+        
+        if (dataPendaftar.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="11" style="text-align:center; padding:20px; color:#999;">Belum ada data pendaftar</td></tr>';
+        }
+        
+        for (var i = 0; i < dataPendaftar.length; i++) {
+            var d = dataPendaftar[i];
+            var tr = document.createElement('tr');
+            
+            var bgColor = '';
+            if (d.ket === 'Lulus') bgColor = '#d4edda';
+            else if (d.ket === 'Tidak Lulus') bgColor = '#f8d7da';
+            else bgColor = '#fff3cd';
+            
+            tr.innerHTML = 
+                '<td><strong>' + d.kode + '</strong></td>' +
+                '<td>' + d.nama + '</td>' +
+                '<td>' + d.ttl + '</td>' +
+                '<td>' + d.jk + '</td>' +
+                '<td>' + d.pekerjaanOrtu + '</td>' +
+                '<td>' + d.tempatTes + '</td>' +
+                '<td>' + d.mat + '</td>' +
+                '<td>' + d.inggris + '</td>' +
+                '<td>' + d.umum + '</td>' +
+                '<td><strong>' + d.rata.toFixed(2) + '</strong></td>' +
+                '<td style="background-color: ' + bgColor + '; font-weight: bold;">' + d.ket + '</td>';
+            
+            tbody.appendChild(tr);
+            
+            if (d.ket === 'Lulus') jumlahLulus++;
+            if (d.ket === 'Tidak Lulus') jumlahTidakLulus++;
+        }
+        
+        // Update ringkasan
+        document.getElementById('jumlahInput').textContent = dataPendaftar.length;
+        document.getElementById('jumlahPendaftar').textContent = dataPendaftar.length;
+        document.getElementById('jumlahLulus').textContent = jumlahLulus;
+        document.getElementById('jumlahTidakLulus').textContent = jumlahTidakLulus;
+    }
+    
+    // Fungsi reset form
+    function resetFormInput() {
+        document.getElementById('nama').value = '';
+        document.getElementById('tempatLahir').value = '';
+        document.getElementById('tanggalLahir').value = '';
+        document.getElementById('pekerjaanOrtu').value = '';
+        document.getElementById('tempatTes').value = '';
+        document.getElementById('gelombang').value = '';
+        document.getElementById('nilaiMat').value = '';
+        document.getElementById('nilaiInggris').value = '';
+        document.getElementById('nilaiUmum').value = '';
+        
+        var radios = document.getElementsByName('jk');
+        for (var i = 0; i < radios.length; i++) {
+            radios[i].checked = false;
+        }
+    }
+    
+    function resetAll() {
+        resetFormInput();
+        document.getElementById('kodePendaftaran').value = '';
+    }
+    
+    // Pasang event listener
+    btnSimpan.addEventListener('click', simpanData);
+    btnReset.addEventListener('click', resetAll);
+    
+});
+</script>
+
 </body>
 </html>
