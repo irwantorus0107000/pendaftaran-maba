@@ -3,90 +3,130 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pendaftaran Mahasiswa Baru</title>
+    <title>Input Pendaftaran Mahasiswa Baru</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
 <div class="container">
-    <h1>Form Pendaftaran Mahasiswa Baru</h1>
-    <h3>Universitas Pamulang - Teknik Informatika</h3>
+    <h2>INPUT PENDAFTARAN</h2>
     
+    <!-- JUMLAH INPUT DATA (otomatis dari tabel) -->
+    <div class="info-jumlah">
+        <strong>JUMLAH INPUT DATA: <span id="jumlahInput">0</span></strong>
+    </div>
+
     <form id="formDaftar">
-        <div class="form-group">
-            <label>Nama Pendaftar:</label>
-            <input type="text" id="nama" required>
+        <table class="form-table">
+            <tr>
+                <td><label>KODE PENDAFTARAN</label></td>
+                <td><input type="text" id="kodePendaftaran" placeholder="A2-101-9" readonly></td>
+            </tr>
+            <tr>
+                <td><label>NAMA PENDAFTAR</label></td>
+                <td><input type="text" id="nama" required></td>
+            </tr>
+            <tr>
+                <td><label>JENIS KELAMIN</label></td>
+                <td>
+                    <label><input type="radio" name="jk" value="Laki-laki" required> LAKI-LAKI</label>
+                    <label><input type="radio" name="jk" value="Perempuan"> PEREMPUAN</label>
+                </td>
+            </tr>
+            <tr>
+                <td><label>TEMPAT TANGGAL LAHIR</label></td>
+                <td>
+                    <input type="text" id="tempatLahir" placeholder="Tempat" required style="width: 120px;">
+                    <input type="date" id="tanggalLahir" required style="width: 160px;">
+                </td>
+            </tr>
+            <tr>
+                <td><label>PEKERJAAN ORANG TUA</label></td>
+                <td><input type="text" id="pekerjaanOrtu" required></td>
+            </tr>
+            <tr>
+                <td colspan="2"><strong>NILAI TES</strong></td>
+            </tr>
+            <tr>
+                <td><label>MATEMATIKA</label></td>
+                <td><input type="number" id="nilaiMat" min="0" max="100" required></td>
+            </tr>
+            <tr>
+                <td><label>BAHASA INGGRIS</label></td>
+                <td><input type="number" id="nilaiInggris" min="0" max="100" required></td>
+            </tr>
+            <tr>
+                <td><label>PENGETAHUAN UMUM</label></td>
+                <td><input type="number" id="nilaiUmum" min="0" max="100" required></td>
+            </tr>
+            <tr>
+                <td><label>TEMPAT TES</label></td>
+                <td>
+                    <select id="tempatTes" required>
+                        <option value="">-- Pilih --</option>
+                        <option value="A">A - Gedung A</option>
+                        <option value="B">B - Gedung B</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td><label>GELOMBANG</label></td>
+                <td>
+                    <select id="gelombang" required>
+                        <option value="">-- Pilih --</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                    </select>
+                </td>
+            </tr>
+        </table>
+        
+        <div class="tombol-form">
+            <button type="submit" class="btn-simpan">SIMPAN</button>
+            <button type="reset" class="btn-reset">RESET</button>
         </div>
-        
-        <div class="form-group">
-            <label>Jenis Kelamin:</label>
-            <div class="radio-group">
-                <label><input type="radio" name="jk" value="Laki-laki" required> Laki-laki</label>
-                <label><input type="radio" name="jk" value="Perempuan"> Perempuan</label>
-            </div>
-        </div>
-        
-        <div class="form-group">
-            <label>Tempat Lahir:</label>
-            <input type="text" id="tempat_lahir" required>
-        </div>
-        
-        <div class="form-group">
-            <label>Tanggal Lahir:</label>
-            <input type="date" id="tanggal_lahir" required>
-        </div>
-        
-        <div class="form-group">
-            <label>Asal Sekolah:</label>
-            <input type="text" id="asal_sekolah" required>
-        </div>
-        
-        <div class="form-group">
-            <label>Pekerjaan Ortu:</label>
-            <input type="text" id="pekerjaan_ortu" required>
-        </div>
-        
-        <div class="form-group">
-            <label>Tempat Tes:</label>
-            <select id="tempat_tes" required>
-                <option value="">Pilih</option>
-                <option value="A">A - Gedung A</option>
-                <option value="B">B - Gedung B</option>
-                <option value="V">V - Viktor</option>
-            </select>
-        </div>
-        
-        <div class="form-group">
-            <label>Gelombang:</label>
-            <select id="gelombang" required>
-                <option value="">Pilih</option>
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-            </select>
-        </div>
-        
-        <hr>
-        <h3>Nilai Tes</h3>
-        
-        <div class="form-group">
-            <label>Matematika:</label>
-            <input type="number" id="nilai_mat" min="0" max="100" required>
-        </div>
-        
-        <div class="form-group">
-            <label>B. Inggris:</label>
-            <input type="number" id="nilai_inggris" min="0" max="100" required>
-        </div>
-        
-        <div class="form-group">
-            <label>Pengetahuan Umum:</label>
-            <input type="number" id="nilai_umum" min="0" max="100" required>
-        </div>
-        
-        <button type="submit">Daftar</button>
     </form>
-    
-    <div id="hasil" class="result" style="display: none;"></div>
+
+    <hr>
+
+    <!-- TABEL DATA -->
+    <h2>TABEL DATA</h2>
+    <div class="table-wrapper">
+        <table id="tabelData">
+            <thead>
+                <tr>
+                    <th>KODE PENDAFTARAN</th>
+                    <th>NAMA PENDAFTAR</th>
+                    <th>TEMPAT TANGGAL LAHIR</th>
+                    <th>JENIS KELAMIN</th>
+                    <th>PEKERJAAN ORANG TUA</th>
+                    <th>TEMPAT TES</th>
+                    <th>MATEMATIKA</th>
+                    <th>INGGRIS</th>
+                    <th>UMUM</th>
+                    <th>RATA-RATA</th>
+                    <th>KETERANGAN</th>
+                </tr>
+            </thead>
+            <tbody id="bodyTabel">
+                <!-- Data akan muncul di sini -->
+            </tbody>
+        </table>
+    </div>
+
+    <!-- RINGKASAN -->
+    <div class="ringkasan">
+        <div class="ringkasan-item">
+            <strong>JUMLAH PENDAFTAR: <span id="jumlahPendaftar">0</span></strong>
+        </div>
+        <div class="ringkasan-item">
+            <strong>JUMLAH PESERTA LULUS: <span id="jumlahLulus">0</span></strong>
+        </div>
+        <div class="ringkasan-item">
+            <strong>JUMLAH PESERTA TIDAK LULUS: <span id="jumlahTidakLulus">0</span></strong>
+        </div>
+    </div>
 </div>
 
 <script src="script.js"></script>
