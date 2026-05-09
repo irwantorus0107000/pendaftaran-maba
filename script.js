@@ -1,79 +1,121 @@
+// Array untuk menyimpan semua data pendaftar
+let dataPendaftar = [];
+let counterUrut = 100; // mulai dari 100
+
+// Event listener form
 document.getElementById('formDaftar').addEventListener('submit', function(e) {
     e.preventDefault();
     
-    // Ambil nilai dari form
-    const nama = document.getElementById('nama').value;
+    // Ambil nilai
+    const nama = document.getElementById('nama').value.trim();
     const jenisKelamin = document.querySelector('input[name="jk"]:checked').value;
-    const tempatLahir = document.getElementById('tempat_lahir').value;
-    const tanggalLahir = document.getElementById('tanggal_lahir').value;
-    const asalSekolah = document.getElementById('asal_sekolah').value;
-    const pekerjaanOrtu = document.getElementById('pekerjaan_ortu').value;
-    const tempatTes = document.getElementById('tempat_tes').value;
+    const tempatLahir = document.getElementById('tempatLahir').value.trim();
+    const tanggalLahir = document.getElementById('tanggalLahir').value;
+    const pekerjaanOrtu = document.getElementById('pekerjaanOrtu').value.trim();
+    const tempatTes = document.getElementById('tempatTes').value;
     const gelombang = document.getElementById('gelombang').value;
-    const nilaiMat = parseInt(document.getElementById('nilai_mat').value);
-    const nilaiInggris = parseInt(document.getElementById('nilai_inggris').value);
-    const nilaiUmum = parseInt(document.getElementById('nilai_umum').value);
-    
-    // Generate nomor urut acak (simulasi karena tanpa database)
-    const noUrut = Math.floor(Math.random() * 900) + 100; // 100-999
+    const nilaiMat = parseInt(document.getElementById('nilaiMat').value);
+    const nilaiInggris = parseInt(document.getElementById('nilaiInggris').value);
+    const nilaiUmum = parseInt(document.getElementById('nilaiUmum').value);
     
     // Ambil bulan dari tanggal lahir
     const tgl = new Date(tanggalLahir);
     const bulan = tgl.getMonth() + 1; // 1-12
     
-    // Generate kode pendaftar
-    const kodePendaftar = tempatTes + gelombang + "-" + noUrut + "-" + bulan;
+    // Generate kode pendaftaran
+    const noUrut = counterUrut++;
+    const kodePendaftaran = tempatTes + gelombang + "-" + noUrut + "-" + bulan;
     
-    // Nama gedung
-    let namaGedung = "";
-    switch(tempatTes) {
-        case 'A': namaGedung = "Gedung A"; break;
-        case 'B': namaGedung = "Gedung B"; break;
-        case 'V': namaGedung = "Viktor"; break;
-    }
+    // Update kode di form (readonly)
+    document.getElementById('kodePendaftaran').value = kodePendaftaran;
     
-    // Hitung rata-rata
-    const rataRata = (nilaiMat + nilaiInggris + nilaiUmum) / 3;
-    
-    // Tentukan keterangan
-    let keterangan = "";
-    if (rataRata >= 70) {
-        keterangan = "Lulus";
-    } else if (rataRata >= 60) {
-        keterangan = "Cadangan";
-    } else {
-        keterangan = "Tidak Lulus";
-    }
-    
-    // Format TTL
+    // Format tempat tanggal lahir
     const options = { day: '2-digit', month: '2-digit', year: 'numeric' };
     const tglFormat = tgl.toLocaleDateString('id-ID', options);
     const ttl = tempatLahir + ", " + tglFormat;
     
-    // Tampilkan hasil
-    const hasilHTML = `
-        <h2>📋 Hasil Pendaftaran</h2>
-        <table>
-            <tr><td>Kode Pendaftar</td><td>: ${kodePendaftar}</td></tr>
-            <tr><td>Keterangan Tes</td><td>: ${namaGedung}</td></tr>
-            <tr><td>Nama Pendaftar</td><td>: ${nama}</td></tr>
-            <tr><td>Jenis Kelamin</td><td>: ${jenisKelamin}</td></tr>
-            <tr><td>TTL</td><td>: ${ttl}</td></tr>
-            <tr><td>Asal Sekolah</td><td>: ${asalSekolah}</td></tr>
-            <tr><td>Pekerjaan Ortu</td><td>: ${pekerjaanOrtu}</td></tr>
-            <tr><td>Nilai Matematika</td><td>: ${nilaiMat}</td></tr>
-            <tr><td>Nilai B. Inggris</td><td>: ${nilaiInggris}</td></tr>
-            <tr><td>Nilai Pengetahuan Umum</td><td>: ${nilaiUmum}</td></tr>
-            <tr><td>Rata-rata</td><td>: ${rataRata.toFixed(2)}</td></tr>
-            <tr><td style="color: #1a237e; font-size: 18px;">Keterangan</td>
-                <td style="color: #1a237e; font-size: 18px; font-weight: bold;">${keterangan}</td></tr>
-        </table>
-    `;
+    // Nama gedung
+    const namaGedung = tempatTes === 'A' ? 'Gedung A' : 'Gedung B';
     
-    const divHasil = document.getElementById('hasil');
-    divHasil.innerHTML = hasilHTML;
-    divHasil.style.display = 'block';
+    // Hitung rata-rata
+    const rataRata = (nilaiMat + nilaiInggris + nilaiUmum) / 3;
     
-    // Scroll ke hasil
-    divHasil.scrollIntoView({ behavior: 'smooth' });
+    // Keterangan
+    let keterangan = '';
+    if (rataRata >= 70) {
+        keterangan = 'Lulus';
+    } else if (rataRata >= 60) {
+        keterangan = 'Cadangan';
+    } else {
+        keterangan = 'Tidak Lulus';
+    }
+    
+    // Tambahkan ke array data
+    dataPendaftar.push({
+        kode: kodePendaftaran,
+        nama: nama,
+        ttl: ttl,
+        jk: jenisKelamin,
+        pekerjaanOrtu: pekerjaanOrtu,
+        tempatTes: namaGedung,
+        mat: nilaiMat,
+        inggris: nilaiInggris,
+        umum: nilaiUmum,
+        rata: rataRata,
+        ket: keterangan
+    });
+    
+    // Render tabel
+    renderTabel();
+    
+    // Reset form (kecuali kode readonly akan terupdate saat submit berikutnya)
+    this.reset();
+    document.getElementById('kodePendaftaran').value = '';
+});
+
+// Fungsi render tabel & ringkasan
+function renderTabel() {
+    const tbody = document.getElementById('bodyTabel');
+    tbody.innerHTML = '';
+    
+    let jumlahLulus = 0;
+    let jumlahTidakLulus = 0;
+    
+    dataPendaftar.forEach((d, index) => {
+        const tr = document.createElement('tr');
+        
+        tr.innerHTML = `
+            <td>${d.kode}</td>
+            <td>${d.nama}</td>
+            <td>${d.ttl}</td>
+            <td>${d.jk}</td>
+            <td>${d.pekerjaanOrtu}</td>
+            <td>${d.tempatTes}</td>
+            <td>${d.mat}</td>
+            <td>${d.inggris}</td>
+            <td>${d.umum}</td>
+            <td>${d.rata.toFixed(2)}</td>
+            <td><strong>${d.ket}</strong></td>
+        `;
+        
+        tbody.appendChild(tr);
+        
+        // Hitung statistik
+        if (d.ket === 'Lulus') {
+            jumlahLulus++;
+        } else if (d.ket === 'Tidak Lulus') {
+            jumlahTidakLulus++;
+        }
+    });
+    
+    // Update ringkasan
+    document.getElementById('jumlahInput').textContent = dataPendaftar.length;
+    document.getElementById('jumlahPendaftar').textContent = dataPendaftar.length;
+    document.getElementById('jumlahLulus').textContent = jumlahLulus;
+    document.getElementById('jumlahTidakLulus').textContent = jumlahTidakLulus;
+}
+
+// Reset form juga membersihkan kode
+document.getElementById('formDaftar').addEventListener('reset', function() {
+    document.getElementById('kodePendaftaran').value = '';
 });
